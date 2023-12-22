@@ -1,0 +1,30 @@
+# FILEPATH: /C:/dev/sonic-pi/drums.pi
+
+# DrumMachine class represents a drum machine that can play different drum sounds.
+class DrumMachine
+    # Initializes a new instance of the DrumMachine class.
+    #
+    # @param synth [Object] The synthesizer object used to play the drum sounds.
+    # @param drum_sounds [Hash] A hash containing the drum sounds.
+    def initialize(synth, drum_sounds)
+        @synth = synth
+        @drum_sounds = drum_sounds
+    end
+
+    # Plays the drum beats.
+    #
+    # @param beats [Array<Hash>] An array of beats, each represented by a hash.
+    #   Each beat hash should have a :type key representing the drum sound type.
+    # @param beat_duration [Numeric] How many total beats (not measures) the pattern occupies
+    # @param volume [Numeric] The volume level of the drum beats (default: 1).
+    def play(beats, beat_duration, *args)
+        beats.each do |beat, ratio|
+            if @drum_sounds[beat]
+                @synth.sample @drum_sounds[beat], *args
+            end
+            @synth.sleep beat_duration.to_f / ratio
+        end
+    end
+end
+
+

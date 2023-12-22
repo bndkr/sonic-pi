@@ -1,0 +1,52 @@
+run_file "C:/dev/sonic-pi/drums.pi"
+
+use_debug false
+use_bpm 120
+
+drum_sounds = {
+    kick: :bd_tek,
+    snare: :sn_dolf,
+    hi_hat: :drum_cymbal_closed,
+    tom: :hat_cats
+}
+
+# Load all drum sounds
+for sound in drum_sounds.values
+    load_samples sound
+end
+
+drum_machine = DrumMachine.new(self, drum_sounds)
+
+pattern = [
+    [:kick, 4],
+    [:hi_hat, 4],
+    [:snare, 4],
+    [:hi_hat, 4],
+]
+
+pattern2 = [
+    [:nil, 3],
+    [:kick, 6],
+    [:nil, 6],
+    [:tom, 6],
+    [:tom, 6],
+]
+
+pattern3 = [
+    [:nil, 2],
+    [:nil, 4],
+    [:nil, 8],
+    [:kick, 8],
+]
+
+live_loop :drum_machine do
+    drum_machine.play(pattern, 4)
+end
+
+live_loop :delayed_drum_machine do
+    drum_machine.play(pattern2, 4, amp: 0.25)
+end
+
+live_loop :last_snre do
+    drum_machine.play(pattern3, 4, amp: 0.25)
+end

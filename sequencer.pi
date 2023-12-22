@@ -1,0 +1,33 @@
+# FILEPATH: /C:/dev/sonic-pi/sequencer.pi
+
+class Sequencer
+    def initialize(synth)
+        @synth = synth
+    end
+
+    def play_sequence(sequence, *args)
+        sequence.each do |note, duration|
+            @synth.play note, *args, release: duration
+            @synth.sleep duration
+        end
+    end
+end
+
+# Create a new Sequencer
+sequencer = Sequencer.new(self)
+
+# Define a sequence
+sequence = [
+    [:C4, 0.5],
+    [:D4, 0.5],
+    [:E4, 0.5],
+    [:F4, 0.5],
+    [:G4, 0.5],
+    [:A4, 0.5],
+    [:B4, 0.5],
+    [:C5, 0.5]
+]
+
+# Play the sequence
+sequencer.play_sequence(sequence, amp: 0.5)
+
